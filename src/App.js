@@ -13,8 +13,6 @@ import {
 } from './config/colorLog'
 
 
-// import list from './list'
-import {news} from './list'
 import Search from './components/Search'
 import Table from './components/Table'
 
@@ -36,7 +34,6 @@ class App extends Component {
     this.state = {
       searchValue: DEFAULT_QUERY,
       result: null,
-      list: news
     }
     // bind function to the this(instance)
     this.remove = this.remove.bind(this)
@@ -47,9 +44,9 @@ class App extends Component {
 
   // class's methods
   remove(item) {
-    this.setState({
-      list: this.state.list.filter(v => v !== item),
-    })
+    // this.setState({
+    //   list: this.state.list.filter(v => v !== item),
+    // })
   }
 
   onInputChange(event) {
