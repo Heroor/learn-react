@@ -45,7 +45,7 @@ class App extends Component {
   // class's methods
   remove(item) {
     // this.setState({
-    //   list: this.state.list.filter(v => v !== item),
+      // ['result.hits']: this.state.result.hits.filter(v => v !== item),
     // })
   }
 
