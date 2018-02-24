@@ -12,11 +12,17 @@ import {
   errorLog
 } from './config/colorLog'
 
-import Search from './components/Search'
-import Table from './components/Table'
+
 // import list from './list'
 import {news} from './list'
+import Search from './components/Search'
+import Table from './components/Table'
 
+
+const DEFAULT_QUERY = 'redux'
+const PATH_BASE = 'https://hn.algolia.com/api/v1'
+const PATH_SEARCH = '/search'
+const PARAM_SEARCH = 'query='
 
 
 // root component of webApp
@@ -28,13 +34,15 @@ class App extends Component {
     super(props)
     // here we can init state or methods
     this.state = {
-      searchValue: '',
-      list: []
+      searchValue: DEFAULT_QUERY,
+      result: null,
+      list: news
     }
     // bind function to the this(instance)
     this.remove = this.remove.bind(this)
     this.onInputChange = this.onInputChange.bind(this)
-    this.addList = this.addList.bind(this)
+    this.setSearchTopStories = this.setSearchTopStories.bind(this)
+    this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this)
   }
 
   // class's methods
@@ -48,18 +56,16 @@ class App extends Component {
     this.setState({searchValue: event.target.value})
   }
 
-  addList(e) {
-    const { list, searchValue } = this.state
-    list.push({
-      objectID: list.length,
-      title: searchValue,
-      author: 'Dan Abramov, Andrew Clark',
-      points: list.length + 1,
-      url: 'https://facebook.github.io/react/'
-    })
-    // this.setState({
-    //   list,
-    // })
+  setSearchTopStories(result) {
+    console.log(result)
+    this.setState({result})
+  }
+
+  fetchSearchTopStories(searchValue) {
+    fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchValue}`)
+      .then(res => res.json())
+      .then(this.setSearchTopStories)
+      .catch(e => e)
   }
 
   /*------------------------component lifecycle-------------------------*/
@@ -96,11 +102,7 @@ class App extends Component {
     console.log('%c[componentDidMount hook]', dangerLog)
     // here we can [ftech API, change state, ...]
 
-    setTimeout(() => {
-      this.setState({
-        list: news
-      })
-    }, 500)
+    this.fetchSearchTopStories(this.state.searchValue)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -122,12 +124,19 @@ class App extends Component {
   componentWillUpdate(nextProps, nextState) {
     // called before the component render
     console.log('%c[componentWillUpdate hook]', successLog)
+    // here we can handle state or props before render
+    // here can not use 'this.setState', it will infinite loop
+
+    // nextState.list.splice(-5)
   }
 
   componentDidUpdate(prevProps, prevState) {
     // called after the component render
     console.log('%c[componentDidUpdate hook]', successLog)
     // here we can [handle DOM, handle async, ...]
+    // here can not use 'this.setState', it will infinite loop
+
+    // console.log(document.querySelector('.page ul'))
   }
 
   componentWillUnmount() {
@@ -135,12 +144,18 @@ class App extends Component {
     console.log('%c[componentWillUnmount hook]', errorLog)
   }
 
+  componentDidCatch(error, info) {
+    // Catch component error
+    console.log(error, info)
+  }
+
   // The element returned by the component
   // called after the component will mount or
   // after the component will update(state or props have changed)
   render() {
     console.log('%c[render function]', storngLog)
-    const {searchValue, list} = this.state
+    const {searchValue, result} = this.state
+    if (!result) return null
     return (
       <div className="page">
         <div className="interactions">
@@ -148,12 +163,11 @@ class App extends Component {
             value={searchValue}
             onChange={this.onInputChange}
           >
-            <button onClick={this.addList}>add</button>
           </Search>
         </div>
 
         <Table
-          list={list}
+          list={result.hits}
           searchValue={searchValue}
           remove={this.remove}
         />
