@@ -11,9 +11,9 @@ const smallColumn = {
   width: '10%'
 }
 
-const Table = ({list, searchValue, remove}) =>
+const Table = ({list, remove}) =>
   <ul className="table">
-    {list.filter(filterList(searchValue)).map(v => (
+    {list.map(v => (
       <li key={v.objectID} className="table-row">
         <span style={smallColumn}>
           {v.points}
@@ -46,8 +46,8 @@ const Table = ({list, searchValue, remove}) =>
 
 
 // filter callback
-const filterList = key => v =>
-  v.title.toLowerCase().includes(key.toLowerCase())
+// const filterList = key => v =>
+//   v.title.toLowerCase().includes(key.toLowerCase())
 
 
 export default Table
