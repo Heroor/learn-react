@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import fetch from 'isomorphic-fetch'
 // import {
 //   BrowserRouter as Router,
 //   Route,
 //   Link
 // } from 'react-router-dom'
-import './App.css';
+import './App.css'
 import {
   storngLog,
   dangerLog,
@@ -12,20 +13,21 @@ import {
   errorLog
 } from './config/colorLog'
 
+// components
 import Search from './components/Search'
 import Table from './components/Table'
 import Button from './components/Button'
 
-
-
-const DEFAULT_QUERY = 'react'
-const DEFAULT_HPP = '5'
-const PATH_BASE = 'https://hn.algolia.com/api/v1'
-const PATH_SEARCH = '/search'
-const PARAM_SEARCH = 'query='
-const PARAM_PAGE = 'page='
-const PARAM_HPP = 'hitsPerPage='
-
+// const
+import {
+  DEFAULT_QUERY,
+  DEFAULT_HPP,
+  PATH_BASE,
+  PATH_SEARCH,
+  PARAM_SEARCH,
+  PARAM_PAGE,
+  PARAM_HPP
+} from './constants'
 
 // root component of webApp
 class App extends Component {
@@ -258,8 +260,14 @@ class App extends Component {
           </Button>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
+
+export {
+  Button,
+  Table,
+  Search
+}

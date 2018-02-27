@@ -1,40 +1,4 @@
-const list = [{
-    objectID: 0,
-    title: 'React',
-    author: 'Dan Abramov, Andrew Clark',
-    points: 1,
-    num_comments: 1,
-    url: 'https://facebook.github.io/react/'
-  },
-  {
-    objectID: 1,
-    title: 'Redux',
-    author: 'Dan Abramov, Andrew Clark',
-    points: 2,
-    num_comments: 2,
-    url: 'https://github.com/reactjs/redux'
-  },
-  {
-    objectID: 2,
-    title: 'Reflush',
-    author: 'Dan Abramov, Andrew Clark',
-    points: 3,
-    num_comments: 3,
-    url: 'https://github.com/reactjs/redux'
-  },
-  {
-    objectID: 3,
-    title: 'Return',
-    author: 'Dan Abramov, Andrew Clark',
-    points: 4,
-    num_comments: 4,
-    url: 'https://github.com/reactjs/redux'
-  }
-]
-
-export default list
-
-export const news = [{
+const news = [{
   objectID: 1,
   points: 1,
   title: "葛优躺侵权案落判",
@@ -105,3 +69,5 @@ export const news = [{
   url: "https://www.baidu.com/s?wd=%E5%A4%AE%E8%A7%86%E6%B7%B1%E5%85%A5%E7%8D%90%E5%AD%90%E5%B2%9B&amp;usm=1&amp;ie=utf-8&amp;rsv_cq=%E4%B8%AD%E5%9B%BD%E9%A6%96%E6%9D%A1%E8%B6%85%E7%BA%A7%E5%85%AC%E8%B7%AF&amp;rsv_dl=0_right_fyb_pchot_20811",
   num_comments: 131722
 }]
+
+export default news

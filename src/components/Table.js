@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Button from './Button'
 
 const largeColumn = {
@@ -49,5 +50,18 @@ const Table = ({list, remove}) =>
 // const filterList = key => v =>
 //   v.title.toLowerCase().includes(key.toLowerCase())
 
+Table.propTypes = {
+  list: PropTypes.arrayOf(
+    // 每一项元素的内容：
+    PropTypes.shape({
+      objectID: PropTypes.string.isRequired,
+      author: PropTypes.string,
+      url: PropTypes.string,
+      num_comments: PropTypes.number,
+      points: PropTypes.number,
+    })
+  ).isRequired,
+  remove: PropTypes.func.isRequired
+}
 
 export default Table

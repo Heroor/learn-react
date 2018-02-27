@@ -35,7 +35,7 @@ const Notification = text => ({
 
 
 
-/*------------------------------------more example-----------------------------------*/
+/*-----------------more example------------------*/
 
 function FooBarOrFooOrBar({ isFoo, isBar }) {
     const key = `${isFoo}-${isBar}`;
