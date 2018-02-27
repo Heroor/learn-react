@@ -6,7 +6,8 @@ import ReactDOM from 'react-dom'
 import App, {
   Search,
   Table,
-  Button
+  Button,
+  Loading
 } from './App'
 import renderer from 'react-test-renderer'
 import Enzyme, { shallow, mount } from 'enzyme'
@@ -116,6 +117,18 @@ describe('Table', () => {
       <Table {...props} />
     )
     expect(element.find('.table-row').length).toBe(2)
+  })
+})
+
+// Loading test
+describe('Loading', () => {
+  it('render without crashing', () => {
+    const div = document.createElement('div')
+    ReactDOM.render(<Loading/>, div)
+  })
+
+  test('has a calid snapshot', () => {
+    renderComponentToSnapshot(<Loading>is loading</Loading>)
   })
 })
 

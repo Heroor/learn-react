@@ -32,6 +32,8 @@
   padding: 10px;
   background: #ffffff;
   border: 1px solid #e3e3e3;
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(7, 17, 27, .1);
 }
 
 .table-header>span {
@@ -64,4 +66,20 @@
 
 li {
   list-style: none;
+}
+
+.loading-wrap img {
+  width: 40px;
+  height: 40px;
+  font-size: 0;
+  animation: rotate 1s;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360);
+  }
 }

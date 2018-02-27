@@ -17,6 +17,8 @@ import {
 import Search from './components/Search'
 import Table from './components/Table'
 import Button from './components/Button'
+import Loading from './components/Loading'
+import logoImg from './logo.svg'
 
 // const
 import {
@@ -41,7 +43,8 @@ class App extends Component {
       searchValue: DEFAULT_QUERY,
       searchKey: '',
       results: null,
-      error: null
+      error: null,
+      isLoading: false
     }
     // bind function to the this(instance)
     this.remove = this.remove.bind(this)
@@ -102,7 +105,8 @@ class App extends Component {
           hits: updateHits,
           page
         }
-      }
+      },
+      isLoading: false
     })
   }
 
@@ -111,6 +115,9 @@ class App extends Component {
   }
 
   fetchSearchTopStories(searchValue, page = 0) {
+    this.setState({
+      isLoading: true
+    })
     fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchValue}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`)
       .then(res => res.json())
       .then(this.setSearchTopStories)
@@ -164,6 +171,7 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // called when the props received by the component have changed
     console.log('[componentWillReceiveProps hook]')
   }
 
@@ -216,7 +224,8 @@ class App extends Component {
       searchValue,
       searchKey,
       results,
-      error
+      error,
+      isLoading
     } = this.state
 
     const page = (
@@ -253,11 +262,17 @@ class App extends Component {
           />
         }
         <div className="interactions">
-          <Button
-            onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}
-          >
-            more
-          </Button>
+          {
+            isLoading ?
+            <Loading>
+              <img src={logoImg}/>
+            </Loading> :
+            <Button
+              onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}
+            >
+              more
+            </Button>
+          }
         </div>
       </div>
     )
@@ -269,5 +284,6 @@ export default App
 export {
   Button,
   Table,
-  Search
+  Search,
+  Loading
 }

@@ -1,25 +1,33 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-const Search = ({
-  value,
-  onChange,
-  onSubmit,
-  children
-}) =>
-  <form onSubmit={onSubmit}>
-    <input
-      type="text"
-      value={value}
-      onChange={onChange}
-    />
-    <button type="submit">
-      {children}
-    </button>
-  </form>
+class Search extends Component {
+  componentDidMount() {
+    this.input && this.input.focus()
+  }
+  render() {
+    const {
+      value,
+      onChange,
+      onSubmit,
+      children
+    } = this.props
 
-
-export default Search
+    return (
+      <form onSubmit={onSubmit}>
+        <input
+          type="text"
+          ref={node => {this.input = node}}
+          value={value}
+          onChange={onChange}
+        />
+        <button type="submit">
+          {children}
+        </button>
+      </form>
+    )
+  }
+}
 
 Search.propTypes = {
   value: PropTypes.string.isRequired,
@@ -32,3 +40,5 @@ Search.defaultProps = {
   children: 'search...',
   value: ''
 }
+
+export default Search

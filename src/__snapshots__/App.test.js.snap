@@ -28,13 +28,9 @@ exports[`App has a valid snashot 1`] = `
   <div
     className="interactions"
   >
-    <button
-      className=""
-      onClick={[Function]}
-      type="button"
-    >
-      more
-    </button>
+    <div>
+      Loading...
+    </div>
   </div>
 </div>
 `;
@@ -47,6 +43,12 @@ exports[`Button has a valid shapshot 1`] = `
 >
   More
 </button>
+`;
+
+exports[`Loading has a calid snapshot 1`] = `
+<div>
+  is loading
+</div>
 `;
 
 exports[`Search has a valid snapshot 1`] = `
