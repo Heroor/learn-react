@@ -5,20 +5,20 @@ import fetch from 'isomorphic-fetch'
 //   Route,
 //   Link
 // } from 'react-router-dom'
-import './App.css'
+import './index.css'
 import {
   storngLog,
   dangerLog,
   successLog,
   errorLog
-} from './config/colorLog'
+} from '../../config/colorLog'
 
 // components
-import Search from './components/Search'
-import Table from './components/Table'
-import Button from './components/Button'
-import Loading from './components/Loading'
-import logoImg from './logo.svg'
+import Search from '../Search'
+import Table from '../Table'
+import Button from '../Button'
+import Loading, {withLoading} from '../Loading'
+import logoImg from '../../logo.svg'
 
 // const
 import {
@@ -29,7 +29,8 @@ import {
   PARAM_SEARCH,
   PARAM_PAGE,
   PARAM_HPP
-} from './constants'
+} from '../../constants'
+
 
 // root component of webApp
 class App extends Component {
@@ -47,7 +48,7 @@ class App extends Component {
       isLoading: false
     }
     // bind function to the this(instance)
-    this.remove = this.remove.bind(this)
+    this.onRemove = this.onRemove.bind(this)
     this.onInputChange = this.onInputChange.bind(this)
     this.onSearchSubmit = this.onSearchSubmit.bind(this)
     this.setSearchTopStories = this.setSearchTopStories.bind(this)
@@ -56,58 +57,27 @@ class App extends Component {
   }
 
   // class's methods
-  remove(item) {
-    const {searchKey, results} = this.state
-    const {hits, page} = results[searchKey]
-
-    const isNotItem = v => v !== item
-    const updateHits = hits.filter(isNotItem)
-    this.setState({
-      results: {
-        ...results,
-        [searchKey]: {
-          hits: updateHits,
-          page
-        }
-      }
-    })
+  onRemove(item) {
+    this.setState(updateOnRemove(item))
   }
 
   onInputChange(event) {
-    this.setState({searchValue: event.target.value})
+    this.setState({ searchValue: event.target.value })
   }
 
   onSearchSubmit(event) {
-    const {searchValue} = this.state
+    const { searchValue } = this.state
     this.setState({
       searchKey: searchValue
     })
-    this.needsToSearchTopStories(searchValue) && this.fetchSearchTopStories(searchValue)
+    !this.state.isLoading && this.needsToSearchTopStories(searchValue) && this.fetchSearchTopStories(searchValue)
 
     event.preventDefault()
   }
 
   setSearchTopStories(result) {
-    const {hits, page} = result
-    const {searchKey, results} = this.state
-
-    const oldHits = results && results[searchKey] ?
-      results[searchKey].hits :
-      []
-    const updateHits = [
-      ...oldHits,
-      ...hits
-    ]
-    this.setState({
-      results: {
-        ...results,
-        [searchKey]: {
-          hits: updateHits,
-          page
-        }
-      },
-      isLoading: false
-    })
+    const { hits, page } = result
+    this.setState(updateSearchTopStoriesState(hits, page))
   }
 
   needsToSearchTopStories(searchKey) {
@@ -129,16 +99,16 @@ class App extends Component {
       }))
   }
 
-  /*------------------------component lifecycle-------------------------*/
+  /*-----------------component lifecycle-------------------*/
 
-    /* [component mount order]:
+    /* [component mountimg]:
      * constructor()
      * componentWillMount()
      * render()
      * componentDidMount()
      */
 
-    /* [component update order]:
+    /* [component updating]:
      * componentWillReceiveProps()
      * shouldComponentUpdate()
      * componentWillUpdate()
@@ -146,11 +116,11 @@ class App extends Component {
      * componentDidUpdate(
      */
 
-     /* [component unmount]
+     /* [component unmounting]
       * componentWillUnmount()
       */
 
-  /*---------------------------------------------------------------------*/
+  /*---------------------------------------------------------*/
 
   // lifecycle hooks
   componentWillMount() {
@@ -163,7 +133,7 @@ class App extends Component {
     console.log('%c[componentDidMount hook]', dangerLog)
     // here we can [ftech API, change state, ...]
 
-    const {searchValue} = this.state
+    const { searchValue } = this.state
     this.setState({
       searchKey: searchValue
     })
@@ -238,13 +208,14 @@ class App extends Component {
       results &&
       results[searchKey] &&
       results[searchKey].hits
-     ) || []
+    ) || []
 
     return (
       <div className="page">
         <div className="interactions">
           <Search
             value={searchValue}
+            isLoading={isLoading}
             onChange={this.onInputChange}
             onSubmit={this.onSearchSubmit}
           >
@@ -258,28 +229,70 @@ class App extends Component {
           </div> :
           <Table
             list={list}
-            remove={this.remove}
+            remove={this.onRemove}
           />
         }
         <div className="interactions">
-          {
-            isLoading ?
-            <Loading>
-              <img src={logoImg}/>
-            </Loading> :
-            <Button
-              onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}
-            >
-              more
-            </Button>
-          }
+          <ButtonWithLoading
+            isLoading={isLoading}
+            loadingChildren={
+              <img src={logoImg} alt="loading"/>
+            }
+            onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}
+          >
+            More
+          </ButtonWithLoading>
         </div>
       </div>
     )
   }
 }
 
-export default App
+const ButtonWithLoading = withLoading(Button)
+
+export const updateSearchTopStoriesState = (hits, page) =>
+  preState => {
+    const { searchKey, results } = preState
+
+    const oldHits = results && results[searchKey] ?
+      results[searchKey].hits : []
+
+    const updateHits = [
+      ...oldHits,
+      ...hits
+    ]
+
+    return {
+      results: {
+        ...results,
+        [searchKey]: {
+          hits: updateHits,
+          page
+        }
+      },
+      isLoading: false
+    }
+  }
+
+export const updateOnRemove = item => prevState => {
+  const {
+    searchKey,
+    results
+  } = prevState
+  const { hits, page } = results[searchKey]
+  const isNotItem = v => v !== item
+  const updateHits = hits.filter(isNotItem)
+  return {
+    results: {
+      ...results,
+      [searchKey]: {
+        hits: updateHits,
+        page
+      }
+    }
+  }
+}
+
 
 export {
   Button,
@@ -287,3 +300,17 @@ export {
   Search,
   Loading
 }
+
+export default App
+
+// replaceState
+// forceUpdate
+
+/* todo :
+重构项目结构
+增加路由
+重构 tableWithError 高阶组件
+flow
+
+
+*/

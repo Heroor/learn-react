@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import Button from '../Button'
+
 class Search extends Component {
   componentDidMount() {
     this.input && this.input.focus()
@@ -24,6 +26,9 @@ class Search extends Component {
         <button type="submit">
           {children}
         </button>
+        {/*<Button type="submit">
+          123
+        </Button>*/}
       </form>
     )
   }

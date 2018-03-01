@@ -7,11 +7,17 @@ import App, {
   Search,
   Table,
   Button,
-  Loading
-} from './App'
+  Loading,
+  updateSearchTopStoriesState
+} from './index.js'
 import renderer from 'react-test-renderer'
 import Enzyme, { shallow, mount } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
+
+const hitList = [
+  { title: '1', author: '1', num_comments: 1, point: 1, objectID: 'y' },
+  { title: '2', author: '2', num_comments: 2, point: 2, objectID: 'x' }
+]
 
 Enzyme.configure({
   adapter: new Adapter()
@@ -85,10 +91,7 @@ describe('Button', () => {
 // Table test
 describe('Table', () => {
   const props = {
-    list: [
-      { title: '1', author: '1', num_comments: 1, point: 1, objectID: 'y' },
-      { title: '2', author: '2', num_comments: 2, point: 2, objectID: 'x' }
-    ],
+    list: hitList,
     remove() {
       console.log('remove!')
     }
@@ -131,6 +134,15 @@ describe('Loading', () => {
     renderComponentToSnapshot(<Loading>is loading</Loading>)
   })
 })
+
+// updateSearchTopStoriesState
+describe('updateSearchTopStoriesState', () => {
+  it('updateSearchTopStoriesState is running', () => {
+    updateSearchTopStoriesState(hitList, 0)
+  })
+})
+
+
 
 
 function renderComponentToSnapshot (DOM) {

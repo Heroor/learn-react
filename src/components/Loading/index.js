@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const Loading = ({
-  children,
-
+  children
 }) => {
   return (
     <div className="loading-wrap">
@@ -19,5 +18,14 @@ Loading.propTypes = {
 Loading.defaultProps = {
   children: 'Loading...'
 }
+
+
+// use the "with" prefix to name the HOC
+export const withLoading = (Component) =>
+  ({ isLoading, loadingChildren = null, ...rest }) =>
+    isLoading ?
+    <Loading>{loadingChildren}</Loading> :
+    <Component {...rest}/>
+
 
 export default Loading
