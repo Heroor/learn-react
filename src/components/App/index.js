@@ -222,21 +222,21 @@ class App extends Component {
             search
           </Search>
         </div>
-        {
-          // error ?
-          // <div className="interactions">
-          //   <p>Oops! something went wrong!</p>
-          // </div> :
-          // <Table
-          //   list={list}
-          //   remove={this.onRemove}
-          // />
-          <TableWithError 
+        {/*
+          error ?
+          <div className="interactions">
+            <p>Oops! something went wrong!</p>
+          </div> :
+          <Table
+            list={list}
+            remove={this.onRemove}
+          />
+        */}
+        <TableWithError 
             isError={error}
             list={list}
             remove={this.onRemove}
           />
-        }
         <div className="interactions">
           <ButtonWithLoading
             isLoading={isLoading}
@@ -314,7 +314,5 @@ export default App
 // forceUpdate
 
 /* todo :
-拆分 css
-重构 tableWithError 高阶组件
-flow
-*/
+ * flow
+ */

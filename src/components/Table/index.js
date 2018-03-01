@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import {sortBy} from 'lodash'
 import classnames from 'classnames'
-
 import PropTypes from 'prop-types'
+import './index.css'
 import Button from '../Button'
 
 const largeColumn = {
@@ -80,7 +80,7 @@ export const Sort = ({
 }) => {
   const sortClass = classnames(
     'button-inline',
-    {'button-active': onSort && sortKey === activeSortKey}
+    {'button-active': sortKey && sortKey === activeSortKey}
   )
   return (
     <Button
@@ -134,7 +134,7 @@ export const TableHeader = ({
       </Sort>
     </span>
     <span style={smallColumn}>
-      <Sort>
+      <Sort onSort={() => {}}>
         Archive
       </Sort>
     </span>

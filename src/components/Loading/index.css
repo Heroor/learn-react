@@ -1,0 +1,12 @@
+.loading-wrap img {
+  width: 40px;
+  height: 40px;
+  font-size: 0;
+  animation: rotate 2s infinite;
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
