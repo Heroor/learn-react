@@ -17,7 +17,7 @@ import {
 import Search from '../Search'
 import Table from '../Table'
 import Button from '../Button'
-import Loading, {withLoading} from '../Loading'
+import {withLoading} from '../Loading'
 import logoImg from '../../logo.svg'
 
 // const
@@ -223,11 +223,16 @@ class App extends Component {
           </Search>
         </div>
         {
-          error ?
-          <div className="interactions">
-            <p>Oops! something went wrong!</p>
-          </div> :
-          <Table
+          // error ?
+          // <div className="interactions">
+          //   <p>Oops! something went wrong!</p>
+          // </div> :
+          // <Table
+          //   list={list}
+          //   remove={this.onRemove}
+          // />
+          <TableWithError 
+            isError={error}
             list={list}
             remove={this.onRemove}
           />
@@ -248,6 +253,16 @@ class App extends Component {
   }
 }
 
+
+const WithError = Component => ({isError, ...rest}) => (
+  isError? 
+  <div className="interactions">
+    <p>Oops! something went wrong!</p>
+  </div> :
+  <Component {...rest}/>
+)
+
+const TableWithError = WithError(Table)
 const ButtonWithLoading = withLoading(Button)
 
 export const updateSearchTopStoriesState = (hits, page) =>
@@ -293,23 +308,13 @@ export const updateOnRemove = item => prevState => {
   }
 }
 
-
-export {
-  Button,
-  Table,
-  Search,
-  Loading
-}
-
 export default App
 
 // replaceState
 // forceUpdate
 
 /* todo :
-重构项目结构 拆分 css test
+拆分 css
 重构 tableWithError 高阶组件
 flow
-
-
 */
