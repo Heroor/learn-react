@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Search has a valid snapshot 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <input
+    onChange={[Function]}
+    type="text"
+    value="ipt val"
+  />
+  <button
+    type="submit"
+  >
+    search...
+  </button>
+</form>
+`;
+
+exports[`Search has a valid text snapshot 1`] = `"Lorem ipsum dolor sit amet quisquam."`;
