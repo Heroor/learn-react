@@ -23,28 +23,6 @@ const SORTS = {
   POINTS: list => sortBy(list, 'point')
 }
 
-
-const Sort = ({
-  sortKey,
-  activeSortKey,
-  onSort,
-  children
-}) => {
-  const sortClass = classnames(
-    'button-inline',
-    {'button-active': sortKey === activeSortKey}
-  )
-
-  return (
-    <Button
-      onClick={() => onSort(sortKey)}
-      className={sortClass}
-    >
-      {children}
-    </Button>
-  )
-}
-
 class Table extends Component {
   constructor(props) {
     super(props)
@@ -81,85 +59,124 @@ class Table extends Component {
       sortedList
     return (
       <div className="table">
-        <div className="table-header">
-          <span style={smallColumn}>
-            <Sort
-              sortKey={'POINTS'}
-              onSort={onSort}
-              activeSortKey={sortKey}
-            >
-              Points
-            </Sort>
-          </span>
-          <span style={largeColumn}>
-            <Sort
-              sortKey={'TITLE'}
-              onSort={onSort}
-              activeSortKey={sortKey}
-            >
-              Title
-            </Sort>
-          </span>
-          <span style={midColumn}>
-            <Sort
-              sortKey={'AUTHOR'}
-              onSort={onSort}
-              activeSortKey={sortKey}
-            >
-              Author
-            </Sort>
-          </span>
-          <span style={smallColumn}>
-            <Sort
-              sortKey={'COMMENTS'}
-              onSort={onSort}
-              activeSortKey={sortKey}
-            >
-              Comments
-            </Sort>
-          </span>
-          <span style={smallColumn}>
-            <Sort>
-              Archive
-            </Sort>
-          </span>
-        </div>
-
-        <ul>
-          {reverseSortedList.map(v => (
-            <li key={v.objectID} className="table-row">
-              <span style={smallColumn}>
-                {v.points}
-              </span>
-              <span style={largeColumn}>
-                <a
-                  target="blank"
-                  href={v.url}
-                >
-                  {v.title}
-                </a>
-              </span>
-              <span style={midColumn}>
-                {v.author}
-              </span>
-              <span style={smallColumn}>
-                {v.num_comments}
-              </span>
-              <span style={smallColumn}>
-                <Button
-                  className="button-inline"
-                  onClick={() => remove(v)}
-                >
-                  [DEL]
-                </Button>
-              </span>
-            </li>
-          ))}
-        </ul>
+        <TableHeader
+          sortKey={sortKey}
+          onSort={onSort}
+        />
+        <TableBody
+          reverseSortedList={reverseSortedList}
+          remove={remove}
+        />
       </div>
     )
   }
 }
+
+export const Sort = ({
+  sortKey,
+  activeSortKey,
+  onSort,
+  children
+}) => {
+  const sortClass = classnames(
+    'button-inline',
+    {'button-active': onSort && sortKey === activeSortKey}
+  )
+  return (
+    <Button
+      onClick={() => onSort(sortKey)}
+      className={sortClass}
+    >
+      {children}
+    </Button>
+  )
+}
+
+export const TableHeader = ({
+  onSort,
+  sortKey
+}) => (
+  <div className="table-header">
+    <span style={smallColumn}>
+      <Sort
+        sortKey={'POINTS'}
+        onSort={onSort}
+        activeSortKey={sortKey}
+      >
+        Points
+      </Sort>
+    </span>
+    <span style={largeColumn}>
+      <Sort
+        sortKey={'TITLE'}
+        onSort={onSort}
+        activeSortKey={sortKey}
+      >
+        Title
+      </Sort>
+    </span>
+    <span style={midColumn}>
+      <Sort
+        sortKey={'AUTHOR'}
+        onSort={onSort}
+        activeSortKey={sortKey}
+      >
+        Author
+      </Sort>
+    </span>
+    <span style={smallColumn}>
+      <Sort
+        sortKey={'COMMENTS'}
+        onSort={onSort}
+        activeSortKey={sortKey}
+      >
+        Comments
+      </Sort>
+    </span>
+    <span style={smallColumn}>
+      <Sort>
+        Archive
+      </Sort>
+    </span>
+  </div>
+)
+
+export const TableBody = ({
+  reverseSortedList,
+  remove,
+}) => (
+  <ul>
+    {reverseSortedList.map(v => (
+      <li key={v.objectID} className="table-row">
+        <span style={smallColumn}>
+          {v.points}
+        </span>
+        <span style={largeColumn}>
+          <a
+            target="blank"
+            href={v.url}
+          >
+            {v.title}
+          </a>
+        </span>
+        <span style={midColumn}>
+          {v.author}
+        </span>
+        <span style={smallColumn}>
+          {v.num_comments}
+        </span>
+        <span style={smallColumn}>
+          <Button
+            className="button-inline"
+            onClick={() => remove(v)}
+          >
+            [DEL]
+          </Button>
+        </span>
+      </li>
+    ))}
+  </ul>
+)
 
 
 // filter callback
@@ -185,10 +202,6 @@ Sort.proptypes = {
   sortKey: PropTypes.string,
   onSort: PropTypes.func,
   children: PropTypes.node
-}
-
-Sort.defaultProps = {
-  onSort: () => {}
 }
 
 export default Table

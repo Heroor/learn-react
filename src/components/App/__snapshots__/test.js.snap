@@ -16,6 +16,8 @@ exports[`App has a valid snashot 1`] = `
         value="redux"
       />
       <button
+        className=""
+        onClick={undefined}
         type="submit"
       >
         search
@@ -96,7 +98,7 @@ exports[`App has a valid snashot 1`] = `
         }
       >
         <button
-          className="button-inline button-active"
+          className="button-inline"
           onClick={[Function]}
           type="button"
         >

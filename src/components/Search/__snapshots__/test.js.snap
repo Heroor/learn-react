@@ -10,6 +10,8 @@ exports[`Search has a valid snapshot 1`] = `
     value="ipt val"
   />
   <button
+    className=""
+    onClick={undefined}
     type="submit"
   >
     search...

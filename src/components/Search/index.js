@@ -23,12 +23,9 @@ class Search extends Component {
           value={value}
           onChange={onChange}
         />
-        <button type="submit">
+        <Button type="submit">
           {children}
-        </button>
-        {/*<Button type="submit">
-          123
-        </Button>*/}
+        </Button>
       </form>
     )
   }

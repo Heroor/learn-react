@@ -3,7 +3,10 @@ import ReactDOM from 'react-dom'
 import Enzyme, { shallow, mount } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import renderComponentToSnapshot, { hitList } from '../../config/TestConfig'
-import Table from './index'
+import Table, {
+  TableHeader,
+  TableBody
+} from './index'
 
 Enzyme.configure({
   adapter: new Adapter()
@@ -38,7 +41,10 @@ describe('Table', () => {
   // 花销的话，使用 render()
   it('shows two items in list', () => {
     const element = shallow(
-      <Table {...props} />
+        <TableBody
+          reverseSortedList={props.list}
+          remove={() => {}}
+        />
     )
     expect(element.find('.table-row').length).toBe(2)
   })
