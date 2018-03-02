@@ -1,10 +1,5 @@
 import React, { Component } from 'react'
 import fetch from 'isomorphic-fetch'
-// import {
-//   BrowserRouter as Router,
-//   Route,
-//   Link
-// } from 'react-router-dom'
 import './index.css'
 import {
   storngLog,
@@ -18,7 +13,7 @@ import Search from '../Search'
 import Table from '../Table'
 import Button from '../Button'
 import {withLoading} from '../Loading'
-import logoImg from '../../logo.svg'
+import logoImg from '../../assets/logo.svg'
 
 // const
 import {
